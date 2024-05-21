@@ -1,53 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2iitv4tpqcen"]
+[gd_scene load_steps=7 format=3 uid="uid://skwoi7lojoat"]
 
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_w0wbf"]
 [ext_resource type="Texture2D" uid="uid://che5rjr36jirw" path="res://assets/miscellaneous/white_background.png" id="2_sry3e"]
-
-[sub_resource type="GDScript" id="GDScript_2vuan"]
-script/source = "extends \"res://scripts/Game.gd\"
-
-@onready var background = $background
-const BALL = preload(\"res://scenes/ball.tscn\")
-
-func _ready():
-	background.modulate = Color.STEEL_BLUE
-	
-	for i in range(5):
-		spawn_ball()
-
-func _input(event):
-	if event.is_action_pressed(\"my_action\"):
-		print(\"you clicked the mouse!\")
-	elif event.is_action_pressed(\"my_quit\"):
-		get_tree().quit()
-
-func spawn_ball():
-	var ball = BALL.instantiate()
-	ball.position = get_random_position()	
-	add_child(ball)
-
-func get_random_position() -> Vector2:
-	return Vector2(
-		randi() % int(get_viewport().size.x),
-		randi() % int(get_viewport().size.y)
-	)
-"
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hqstv"]
 normal = Vector2(0, 1)
-distance = -59.026
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7iggm"]
 normal = Vector2(1, 0)
 distance = -1.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m8muj"]
-distance = -33.0
+distance = -35.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qwi4n"]
 normal = Vector2(-1, 0)
 
 [node name="Game" type="Node2D"]
-script = SubResource("GDScript_2vuan")
+script = ExtResource("1_w0wbf")
 
 [node name="background" type="Sprite2D" parent="."]
 texture = ExtResource("2_sry3e")
@@ -57,10 +27,10 @@ texture = ExtResource("2_sry3e")
 [node name="Walls" type="Node" parent="Actors"]
 
 [node name="North" type="StaticBody2D" parent="Actors/Walls"]
-position = Vector2(-1, -262)
+position = Vector2(0, -263)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Actors/Walls/North"]
-position = Vector2(0, -1)
+position = Vector2(0, -61)
 shape = SubResource("WorldBoundaryShape2D_hqstv")
 
 [node name="East" type="StaticBody2D" parent="Actors/Walls"]
@@ -71,10 +41,10 @@ position = Vector2(1, 1)
 shape = SubResource("WorldBoundaryShape2D_7iggm")
 
 [node name="South" type="StaticBody2D" parent="Actors/Walls"]
-position = Vector2(-10, 325)
+position = Vector2(-12, 315)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Actors/Walls/South"]
-position = Vector2(0, -33)
+position = Vector2(12, -26)
 shape = SubResource("WorldBoundaryShape2D_m8muj")
 
 [node name="West" type="StaticBody2D" parent="Actors/Walls"]
