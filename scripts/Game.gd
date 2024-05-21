@@ -10,9 +10,7 @@ func _ready():
 		spawn_ball()
 
 func _input(event):
-	if event.is_action_pressed("my_action"):
-		print("you clicked the mouse!")
-	elif event.is_action_pressed("my_quit") and GlobalConfig.IS_DEBUG:
+	if event.is_action_pressed("my_quit") and GlobalConfig.IS_DEBUG:
 		get_tree().quit()
 
 func spawn_ball():

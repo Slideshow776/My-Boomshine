@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var bounciness: float = 1.0
 @onready var sprite_2d = $Sprite2D
+@onready var collision_shape_2d = $CollisionShape2D
 
 const MIN_VELOCITY = 50
 const MAX_VELOCITY = 200
@@ -24,7 +25,15 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.bounce(normal) * bounciness
 			break  # React only to the first collision in this example
 
-# Generate a random dark color with purer hues
+
+func _input_event(viewport, event, shape_idx):
+	if event.is_action_pressed("my_action"):
+		handle_mouse_click()
+
+func handle_mouse_click() -> void:
+	print("Ball clicked! ID:", get_instance_id())
+	# Add your custom logic here
+
 func get_random_dark_color() -> Color:
 	var min_value = randf_range(0, .1)  # Minimum value for color component
 	var max_value = 0.5  # Maximum value for color component
