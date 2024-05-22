@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://skwoi7lojoat"]
 
-[ext_resource type="Script" path="res://scripts/Game.gd" id="1_w0wbf"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_w0wbf"]
 [ext_resource type="Texture2D" uid="uid://che5rjr36jirw" path="res://assets/miscellaneous/white_background.png" id="2_sry3e"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hqstv"]

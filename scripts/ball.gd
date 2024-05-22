@@ -9,10 +9,12 @@ const MIN_VELOCITY: int = -200
 @onready var sprite_2d = $Sprite2D
 @onready var collision_shape_2d = $CollisionShape2D
 
+var colour = _get_random_dark_color()
+
 
 func _ready(): # override
 	velocity = _get_random_velocity()
-	sprite_2d.modulate = _get_random_dark_color()
+	sprite_2d.modulate = colour
 
 func _physics_process(delta: float): # override
 	move_and_slide()
