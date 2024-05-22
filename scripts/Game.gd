@@ -3,7 +3,7 @@ extends Node2D
 
 const BALL = preload("res://scenes/ball.tscn")
 const EXPLOSION = preload("res://scenes/explosion.tscn")
-const NUM_BALLS: int = 100
+const NUM_BALLS: int = 15
 
 @onready var background = $background
 @onready var camera_2d = $Camera2D
@@ -25,7 +25,12 @@ func _input(event):	 # override
 			GlobalConfig.IS_DEBUG
 	):
 		get_tree().quit()
-
+	elif (
+			event.is_action_pressed("my_restart") and 
+			GlobalConfig.IS_DEBUG
+	):
+		get_tree().reload_current_scene()
+#
 func _spawn_explosion(position: Vector2 = Vector2.ZERO, colour: Color = Color.WHITE):
 	var explosion = EXPLOSION.instantiate()
 	

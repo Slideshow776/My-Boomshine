@@ -11,7 +11,7 @@ const MIN_VELOCITY: int = -200
 
 var colour = _get_random_dark_color()
 
-
+#
 func _ready(): # override
 	velocity = _get_random_velocity()
 	sprite_2d.modulate = colour
