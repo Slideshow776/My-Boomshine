@@ -9,15 +9,15 @@ enum _State {
 	SCALING_DOWN,
 }
 
-@onready var sprite_2d = $Sprite2D
-
 var _state = _State.SCALING_UP
 var _target_scale = Vector2(1, 1) # Target scale
-var _scale_duration = 1.0 # Duration of scaling animation (in seconds)
-var _idle_duration = 1.0
+var _scale_duration = 0.6 # Duration of scaling animation (in seconds)
+var _idle_duration = 0.8
 var _time = 0.0
 var _queue_free_threshold = 0.001
 var _sprite_opacity = 0.8
+
+@onready var sprite_2d = $Sprite2D
 
 func _ready():
 	connect("body_entered", _on_body_entered)

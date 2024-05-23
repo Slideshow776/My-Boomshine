@@ -1,17 +1,23 @@
 class_name Ball
 extends CharacterBody2D
 
-const MAX_VELOCITY: int = 200
-const MIN_VELOCITY: int = -200
+enum Type {
+	RED,
+	GREEN,
+	BLUE,
+}
+
+const _MAX_VELOCITY: int = 20
+const _MIN_VELOCITY: int = -_MAX_VELOCITY
 
 @export var bounciness: float = 1.0
+
+var type = _get_random_type()
+var colour = _get_color(type) #_get_random_dark_color()
 
 @onready var sprite_2d = $Sprite2D
 @onready var collision_shape_2d = $CollisionShape2D
 
-var colour = _get_random_dark_color()
-
-#
 func _ready(): # override
 	velocity = _get_random_velocity()
 	sprite_2d.modulate = colour
@@ -32,6 +38,21 @@ func _handle_wall_bounce():
 			var normal = collision.get_normal() # Calculate the reflection vector
 			velocity = velocity.bounce(normal) * bounciness
 			break  # React only to the first collision in this example
+
+func _get_color(type: Type) -> Color:
+	match type:
+		Type.RED:
+			return Color.RED
+		Type.GREEN:
+			return Color.GREEN
+		Type.BLUE: 
+			return Color.BLUE
+		_:
+			return Color.WHITE
+
+func _get_random_type() -> Type:
+	var types = [Type.RED, Type.GREEN, Type.BLUE]
+	return types[randi() % types.size()]
 
 func _get_random_dark_color() -> Color:
 	var min_value = randf_range(0, .1)  # Minimum value for color component
@@ -56,6 +77,6 @@ func _get_random_dark_color() -> Color:
 
 func _get_random_velocity() -> Vector2:
 	return Vector2(
-		randi_range(MIN_VELOCITY, MAX_VELOCITY),
-		randi_range(MIN_VELOCITY, MAX_VELOCITY)
+		randi_range(_MIN_VELOCITY, _MAX_VELOCITY),
+		randi_range(_MIN_VELOCITY, _MAX_VELOCITY)
 	)

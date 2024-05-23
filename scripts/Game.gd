@@ -3,20 +3,24 @@ extends Node2D
 
 const BALL = preload("res://scenes/ball.tscn")
 const EXPLOSION = preload("res://scenes/explosion.tscn")
-const NUM_BALLS: int = 15
+const NUM_BALLS: int = 40
 
-@onready var background = $background
-@onready var camera_2d = $Camera2D
+@onready var _background = $background
+@onready var _camera_2d = $Camera2D
+@onready var _red_label = $GUI/Labels/VBoxContainer/Red
+@onready var _green_label = $GUI/Labels/VBoxContainer/Green
+@onready var _blue_label = $GUI/Labels/VBoxContainer/Blue
 
-func _process(delta):
-	pass
 
 func _ready(): # override
-	background.modulate = Color.STEEL_BLUE
+	_background.modulate = Color.STEEL_BLUE
 	
 	for i in range(NUM_BALLS):
-		_spawn_ball()		
-	
+		_spawn_ball()	
+			
+func _process(delta):
+	_set_num_ball_labels()
+		
 func _input(event):	 # override
 	if event.is_action_pressed("my_action"):
 		_spawn_explosion()
@@ -61,9 +65,29 @@ func _spawn_ball():
 	ball.add_to_group("balls", true)
 	add_child(ball)	
 
+func _set_num_ball_labels():
+	var red = 0
+	var green = 0
+	var blue = 0
+	
+	var balls = get_tree().get_nodes_in_group("balls")
+	for ball in balls:
+		match ball.type:
+			Ball.Type.RED:
+				red +=1
+			Ball.Type.GREEN:
+				green +=1
+			Ball.Type.BLUE:
+				blue +=1
+	_red_label.text = "REDs: " + str(red)
+	_green_label.text = "GREENs: " + str(green)
+	_blue_label.text = "BLUEs: " + str(blue)
+
 func _get_random_position() -> Vector2:	
-	var camera_width = camera_2d.get_zoom() * get_viewport_rect().size.x
-	var camera_height = camera_2d.get_zoom() * get_viewport_rect().size.y
+	var camera_width = _camera_2d.get_zoom() * get_viewport_rect().size.x
+	var camera_height = _camera_2d.get_zoom() * get_viewport_rect().size.y
+	
+	#print("camera width: " + str(camera_width) + ", camera height: " + str(camera_height))
 	
 	return Vector2(
 		randf_range(-camera_width.x / 2, camera_width.x / 2),
