@@ -11,6 +11,7 @@ collision_layer = 2
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_jtf5j")
+direction_change_iteration = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(4.76837e-07, 9.53674e-07)

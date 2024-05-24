@@ -3,7 +3,7 @@ extends Node2D
 
 const BALL = preload("res://scenes/ball.tscn")
 const EXPLOSION = preload("res://scenes/explosion.tscn")
-const NUM_BALLS: int = 40
+const NUM_BALLS: int = 20
 
 @onready var _background = $background
 @onready var _camera_2d = $Camera2D

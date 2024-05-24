@@ -48,12 +48,12 @@ func _idle():
 		
 func _scale_up():
 	scale = lerp(Vector2.ZERO, _target_scale, _calculate_interpolation_factor())	
-	if scale == _target_scale:
+	if scale >= _target_scale:
 		setState(_State.IDLE)
 
 func _scale_down():	
 	scale = lerp(_target_scale, Vector2.ZERO, _calculate_interpolation_factor())
-	if scale.distance_to(Vector2.ZERO) < _queue_free_threshold:
+	if scale.distance_to(Vector2.ZERO) <= _queue_free_threshold:
 		queue_free()
 		
 func _calculate_interpolation_factor():

@@ -1,19 +1,31 @@
 class_name Ball
 extends CharacterBody2D
 
+
+signal state_changed(previous, new)
+
 enum Type {
 	RED,
 	GREEN,
 	BLUE,
 }
 
-const _MAX_VELOCITY: int = 20
+enum MovementState {
+	STRAIGHT,
+	CLOCKWISE,
+	COUNTERCLOCKWISE,
+}
+
+const _MAX_VELOCITY: int = 700
 const _MIN_VELOCITY: int = -_MAX_VELOCITY
 
 @export var bounciness: float = 1.0
+@export var direction_change_angle: float = deg_to_rad(0)  # Change this value to adjust the curve amount
+@export var direction_change_iteration = 0.01
+@export var direction_change_max_angle = 1.0
 
 var type = _get_random_type()
-var colour = _get_color(type) #_get_random_dark_color()
+var colour = _get_color(type)
 
 @onready var sprite_2d = $Sprite2D
 @onready var collision_shape_2d = $CollisionShape2D
@@ -25,11 +37,19 @@ func _ready(): # override
 func _physics_process(delta: float): # override
 	move_and_slide()
 	_handle_wall_bounce()
-
+	_handle_direction_change(delta)
+	
 
 func explode():
 	queue_free()
 	
+func _handle_direction_change(delta: float):
+	direction_change_angle = clamp(
+		direction_change_angle + randf_range(-direction_change_iteration, direction_change_iteration),
+		 -direction_change_max_angle,
+		 direction_change_max_angle
+	)
+	velocity = velocity.rotated(direction_change_angle * delta)
 	
 func _handle_wall_bounce():
 	for i in range(get_slide_collision_count()):
