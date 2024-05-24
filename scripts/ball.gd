@@ -4,19 +4,13 @@ extends CharacterBody2D
 
 signal state_changed(previous, new)
 
-enum Type {
-	RED,
-	GREEN,
-	BLUE,
-}
-
 enum MovementState {
 	STRAIGHT,
 	CLOCKWISE,
 	COUNTERCLOCKWISE,
 }
 
-const _MAX_VELOCITY: int = 700
+const _MAX_VELOCITY: int = 200
 const _MIN_VELOCITY: int = -_MAX_VELOCITY
 
 @export var bounciness: float = 1.0
@@ -24,24 +18,33 @@ const _MIN_VELOCITY: int = -_MAX_VELOCITY
 @export var direction_change_iteration = 0.01
 @export var direction_change_max_angle = 1.0
 
-var type = _get_random_type()
-var colour = _get_color(type)
+var is_physics: bool = true
+var is_explodable: bool = true
+var colour: Color = GameManager.get_color(type)
+var type: GameManager.Type = GameManager.Type.NEUTRAL
 
 @onready var sprite_2d = $Sprite2D
 @onready var collision_shape_2d = $CollisionShape2D
 
-func _ready(): # override
+func _ready():
 	velocity = _get_random_velocity()
-	sprite_2d.modulate = colour
 
-func _physics_process(delta: float): # override
+func _physics_process(delta: float):
+	if !is_physics:
+		return
+		
 	move_and_slide()
 	_handle_wall_bounce()
 	_handle_direction_change(delta)
 	
+	
+func set_type(type: GameManager.Type):
+	self.type = type
+	modulate = GameManager.get_color(type)	
 
-func explode():
-	queue_free()
+func get_size() -> Vector2:
+	return sprite_2d.texture.get_size()
+
 	
 func _handle_direction_change(delta: float):
 	direction_change_angle = clamp(
@@ -58,21 +61,6 @@ func _handle_wall_bounce():
 			var normal = collision.get_normal() # Calculate the reflection vector
 			velocity = velocity.bounce(normal) * bounciness
 			break  # React only to the first collision in this example
-
-func _get_color(type: Type) -> Color:
-	match type:
-		Type.RED:
-			return Color.RED
-		Type.GREEN:
-			return Color.GREEN
-		Type.BLUE: 
-			return Color.BLUE
-		_:
-			return Color.WHITE
-
-func _get_random_type() -> Type:
-	var types = [Type.RED, Type.GREEN, Type.BLUE]
-	return types[randi() % types.size()]
 
 func _get_random_dark_color() -> Color:
 	var min_value = randf_range(0, .1)  # Minimum value for color component

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxi24p5jjf4ew"]
+
+[ext_resource type="Script" path="res://scripts/molecule.gd" id="1_nh5bf"]
+[ext_resource type="Texture2D" uid="uid://8065wfcmgnsf" path="res://assets/actors/ball.png" id="2_gc3f0"]
+
+[node name="Molecule" type="Node2D"]
+script = ExtResource("1_nh5bf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_gc3f0")

@@ -1,10 +1,43 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxuciq5fti3d7"]
+[gd_scene load_steps=6 format=3 uid="uid://cxuciq5fti3d7"]
 
 [ext_resource type="Script" path="res://scripts/ball.gd" id="1_jtf5j"]
 [ext_resource type="Texture2D" uid="uid://8065wfcmgnsf" path="res://assets/actors/ball.png" id="2_2bd3u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p27j0"]
 radius = 18.0
+
+[sub_resource type="Animation" id="Animation_v8wc0"]
+resource_name = "explosion"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.2, 0.2), Vector2(0.35, 0.35)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pd8sr"]
+_data = {
+"explosion": SubResource("Animation_v8wc0")
+}
 
 [node name="Ball" type="CharacterBody2D"]
 collision_layer = 2
@@ -20,3 +53,8 @@ texture = ExtResource("2_2bd3u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_p27j0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pd8sr")
+}

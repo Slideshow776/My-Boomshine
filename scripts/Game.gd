@@ -2,8 +2,9 @@ class_name Game
 extends Node2D
 
 const BALL = preload("res://scenes/ball.tscn")
+const MOLECULE = preload("res://scenes/molecule.tscn")
 const EXPLOSION = preload("res://scenes/explosion.tscn")
-const NUM_BALLS: int = 20
+const NUM_BALLS: int = 5
 
 @onready var _background = $background
 @onready var _camera_2d = $Camera2D
@@ -35,35 +36,53 @@ func _input(event):	 # override
 	):
 		get_tree().reload_current_scene()
 #
-func _spawn_explosion(position: Vector2 = Vector2.ZERO, colour: Color = Color.WHITE):
+func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type = GameManager.Type.NEUTRAL):
 	var explosion = EXPLOSION.instantiate()
+	explosion.add_to_group("explosions", true)
+	add_child(explosion)
 	
 	if position == Vector2.ZERO:
 		explosion.position = get_global_mouse_position()
 	else:
 		explosion.position = position
 	
-	explosion.set_colour(colour)
-	#explosion.modulate = colour
+	explosion.set_type(type)
 	
 	var balls = get_tree().get_nodes_in_group("balls")
 	for ball in balls:
 		ball.z_index = explosion.z_index + 1	
 	
-	explosion.ball_entered.connect(_create_explosion)
-	
-	explosion.add_to_group("explosions", true)
-	add_child(explosion)
+	explosion.ball_entered.connect(_create_explosion)	
 
-func _create_explosion(body):
-	_spawn_explosion(body.position, body.colour)
-	body.queue_free()
+func _create_explosion(explosion: Explosion, body):
+	if body is Ball:
+		_spawn_explosion(body.position, body.type)
+		body.queue_free()
+		
+		if explosion.type == GameManager.Type.NEUTRAL:
+			return
+		
+		#_spawn_molecule(explosion, body)
+		
+	#elif body is Explosion:
+		#print("body is Explosion")
 
 func _spawn_ball():
 	var ball = BALL.instantiate()
-	ball.position = _get_random_position()	
 	ball.add_to_group("balls", true)
 	add_child(ball)	
+	
+	ball.position = _get_random_position()	
+	ball.set_type(GameManager.get_random_type())	
+
+func _spawn_molecule(body_a, body_b):       
+	var molecule = MOLECULE.instantiate()   
+	molecule.add_to_group("molecules", true)
+	add_child(molecule) 
+	
+	molecule.init_molecule([body_a.type, body_b.type])
+	molecule.position = body_a.position
+	
 
 func _set_num_ball_labels():
 	var red = 0
@@ -73,11 +92,11 @@ func _set_num_ball_labels():
 	var balls = get_tree().get_nodes_in_group("balls")
 	for ball in balls:
 		match ball.type:
-			Ball.Type.RED:
+			GameManager.Type.RED:
 				red +=1
-			Ball.Type.GREEN:
+			GameManager.Type.GREEN:
 				green +=1
-			Ball.Type.BLUE:
+			GameManager.Type.BLUE:
 				blue +=1
 	_red_label.text = "REDs: " + str(red)
 	_green_label.text = "GREENs: " + str(green)
