@@ -31,7 +31,15 @@ func get_color(type: Type):
 		Type.WHITE:
 			return Color("#ffffff")
 			
-
 func get_random_type() -> Type:
 	var types = [Type.PINK, Type.ORANGE, Type.GREEN, Type.YELLOW]
 	return types[randi() % types.size()]
+
+func update(is_level_won: bool, level_score: int):
+	player_got_num_balls = 0
+	
+	if is_level_won:
+		score += level_score
+		level += 1
+		num_balls += 2
+		level_objective	= int(ceil(num_balls / 2))

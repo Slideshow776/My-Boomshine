@@ -19,7 +19,6 @@ func _process(delta):
 
 
 func apply_shake():
-	print("applying shake")
 	_shake_strength = random_strength
 
 

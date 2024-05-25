@@ -8,6 +8,7 @@ const EXPLOSION = preload("res://scenes/explosion.tscn")
 
 var _is_player_input = false
 var _is_win = false
+var _score_this_level = 0
 
 @onready var _background = $background
 @onready var _camera_2d = $Camera2D
@@ -57,22 +58,16 @@ func _is_level_won() -> bool:
 
 func _restart_level():
 	_is_player_input = false
-	_update_game_manager()	
+	GameManager.update(_is_level_won(), _score_this_level)
+	_score_this_level = 0
 		
 	_remove_all_balls()
 	_add_balls()
 	
 	_set_level(GameManager.level)
-	_set_objective(GameManager.level_objective)
+	_set_objective(GameManager.level_objective)	
+	_set_score(GameManager.score)
 	_set_catches(0)
-
-func _update_game_manager():
-	GameManager.player_got_num_balls = 0
-	
-	if _is_level_won():
-		GameManager.level += 1
-		GameManager.num_balls += 2
-		GameManager.level_objective	+= int(ceil(GameManager.num_balls / 4))
 
 func _remove_all_balls():
 	for ball in _get_balls():
@@ -107,6 +102,9 @@ func _set_objective(i: int):
 func _set_catches(i: int):
 	catches.text = "You got: " + str(i)
 
+func _set_score(i: int):	
+	score.text = "Score: " + str(i)
+
 func _get_balls() -> Array:
 	return get_tree().get_nodes_in_group("balls")
 
@@ -137,8 +135,8 @@ func _create_explosion(explosion: Explosion, body):
 		_spawn_explosion(body.position, body.type)
 		body.queue_free()
 		
-		GameManager.score += body.score
-		score.text = "Score: " + str(GameManager.score)
+		_score_this_level += body.score
+		_set_score(GameManager.score + _score_this_level)		
 		
 		GameManager.player_got_num_balls += 1
 		_set_catches(GameManager.player_got_num_balls)
