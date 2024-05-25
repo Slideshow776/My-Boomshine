@@ -9,8 +9,10 @@ const EXPLOSION = preload("res://scenes/explosion.tscn")
 var _is_player_input = false
 var _is_win = false
 var _score_this_level = 0
+var _is_ready_to_flash = true
 
 @onready var _background = $background
+@onready var _background_animation_player = $background/AnimationPlayer
 @onready var _camera_2d = $Camera2D
 @onready var _red_label = $GUI/Labels/VBoxContainer/Red
 @onready var _green_label = $GUI/Labels/VBoxContainer/Green
@@ -31,6 +33,10 @@ func _process(delta):
 	
 	if _is_level_complete():
 		_restart_level()
+		
+	if _is_level_won() and _is_ready_to_flash:
+		_is_ready_to_flash = false
+		_background_animation_player.play("flash")
 		
 func _input(event):
 	if (
@@ -58,6 +64,7 @@ func _is_level_won() -> bool:
 
 func _restart_level():
 	_is_player_input = false
+	_is_ready_to_flash = true
 	GameManager.update(_is_level_won(), _score_this_level)
 	_score_this_level = 0
 		
