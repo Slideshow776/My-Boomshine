@@ -4,7 +4,7 @@ extends Area2D
 signal ball_entered
 signal explosion_entered
 
-var type = GameManager.Type.NEUTRAL
+var type = GameManager.Type.PURPLE
 var _sprite_opacity = 0.8
 
 @onready var sprite_2d = $Sprite2D

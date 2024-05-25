@@ -21,7 +21,7 @@ var _MIN_VELOCITY: int = -_max_velocity
 var is_physics: bool = true
 var is_explodable: bool = true
 var colour: Color = GameManager.get_color(type)
-var type: GameManager.Type = GameManager.Type.NEUTRAL
+var type: GameManager.Type = GameManager.Type.PURPLE
 
 @onready var sprite_2d = $Sprite2D
 @onready var collision_shape_2d = $CollisionShape2D

@@ -20,11 +20,8 @@ var _is_win = false
 @onready var level = $GUI/Labels/Stats/Level
 
 
-func _ready():
-	_background.modulate = Color.STEEL_BLUE
-	
+func _ready():	
 	_add_balls()	
-		
 	_set_level(GameManager.level)
 	_set_objective(GameManager.level_objective)
 			
@@ -116,7 +113,7 @@ func _get_balls() -> Array:
 func _get_explosions() -> Array:
 	return get_tree().get_nodes_in_group("explosions")
 	
-func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type = GameManager.Type.NEUTRAL):
+func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type = GameManager.Type.WHITE):
 	var explosion = EXPLOSION.instantiate()
 	explosion.add_to_group("explosions", true)
 	add_child(explosion)
@@ -146,6 +143,7 @@ func _create_explosion(explosion: Explosion, body):
 		GameManager.player_got_num_balls += 1
 		_set_catches(GameManager.player_got_num_balls)
 		
+		_camera_2d.apply_shake()
 		
 		#if explosion.type == GameManager.Type.NEUTRAL:
 			#return
@@ -173,21 +171,21 @@ func _spawn_molecule(body_a, body_b):
 
 func _set_num_ball_labels():
 	var red = 0
-	var green = 0
-	var blue = 0
-	
-	var balls = get_tree().get_nodes_in_group("balls")
-	for ball in balls:
-		match ball.type:
-			GameManager.Type.RED:
-				red +=1
-			GameManager.Type.GREEN:
-				green +=1
-			GameManager.Type.BLUE:
-				blue +=1
-	_red_label.text = "REDs: " + str(red)
-	_green_label.text = "GREENs: " + str(green)
-	_blue_label.text = "BLUEs: " + str(blue)
+	#var green = 0
+	#var blue = 0
+	#
+	#var balls = get_tree().get_nodes_in_group("balls")
+	#for ball in balls:
+		#match ball.type:
+			#GameManager.Type.RED:
+				#red +=1
+			#GameManager.Type.GREEN:
+				#green +=1
+			#GameManager.Type.BLUE:
+				#blue +=1
+	#_red_label.text = "REDs: " + str(red)
+	#_green_label.text = "GREENs: " + str(green)
+	#_blue_label.text = "BLUEs: " + str(blue)
 
 func _get_random_position() -> Vector2:	
 	var camera_width = _camera_2d.get_zoom() * get_viewport_rect().size.x

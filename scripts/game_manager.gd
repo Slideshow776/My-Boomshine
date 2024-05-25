@@ -2,10 +2,12 @@ extends Node
 
 
 enum Type {
-	NEUTRAL,
-	RED,
-	GREEN,
-	BLUE,	
+	PURPLE,
+	PINK,
+	ORANGE,
+	GREEN,	
+	YELLOW,
+	WHITE,
 }
 
 var score: int = 0
@@ -16,15 +18,20 @@ var num_balls: int = 2
 
 func get_color(type: Type):
 	match type:
-		Type.RED:
-			return Color.RED
+		Type.PURPLE:
+			return Color("#8854f3")
+		Type.PINK:
+			return Color("#ff79ae")
+		Type.ORANGE:
+			return Color("#ff8c5c")
 		Type.GREEN:
-			return Color.GREEN
-		Type.BLUE:
-			return Color.BLUE
-		_:
-			return Color.WHITE
+			return Color("#63ffba")
+		Type.YELLOW:
+			return Color("#fff982")
+		Type.WHITE:
+			return Color("#ffffff")
+			
 
 func get_random_type() -> Type:
-	var types = [GameManager.Type.RED, GameManager.Type.GREEN, GameManager.Type.BLUE]
+	var types = [Type.PINK, Type.ORANGE, Type.GREEN, Type.YELLOW]
 	return types[randi() % types.size()]
