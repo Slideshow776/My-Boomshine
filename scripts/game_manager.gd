@@ -8,6 +8,12 @@ enum Type {
 	BLUE,	
 }
 
+var score: int = 0
+var player_got_num_balls: int = 0
+var level: int = 1
+var level_objective: int = 1
+var num_balls: int = 2
+
 func get_color(type: Type):
 	match type:
 		Type.RED:

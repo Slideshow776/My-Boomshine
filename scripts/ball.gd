@@ -10,14 +10,14 @@ enum MovementState {
 	COUNTERCLOCKWISE,
 }
 
-const _MAX_VELOCITY: int = 200
-const _MIN_VELOCITY: int = -_MAX_VELOCITY
-
-@export var bounciness: float = 1.0
+@export var score: int = 10
+@export var _max_velocity: int = 200
 @export var direction_change_angle: float = deg_to_rad(0)  # Change this value to adjust the curve amount
 @export var direction_change_iteration = 0.01
 @export var direction_change_max_angle = 1.0
 
+var _bounciness: float = 1.0
+var _MIN_VELOCITY: int = -_max_velocity
 var is_physics: bool = true
 var is_explodable: bool = true
 var colour: Color = GameManager.get_color(type)
@@ -59,7 +59,7 @@ func _handle_wall_bounce():
 		var collision = get_slide_collision(i)
 		if get_slide_collision(i):			
 			var normal = collision.get_normal() # Calculate the reflection vector
-			velocity = velocity.bounce(normal) * bounciness
+			velocity = velocity.bounce(normal) * _bounciness
 			break  # React only to the first collision in this example
 
 func _get_random_dark_color() -> Color:
@@ -85,6 +85,6 @@ func _get_random_dark_color() -> Color:
 
 func _get_random_velocity() -> Vector2:
 	return Vector2(
-		randi_range(_MIN_VELOCITY, _MAX_VELOCITY),
-		randi_range(_MIN_VELOCITY, _MAX_VELOCITY)
+		randi_range(_MIN_VELOCITY, _max_velocity),
+		randi_range(_MIN_VELOCITY, _max_velocity)
 	)

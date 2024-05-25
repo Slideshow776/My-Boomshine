@@ -14,11 +14,12 @@ func _ready():
 	connect("body_entered", _on_body_entered)
 
 func _on_body_entered(body):
-	if body is Ball:		
-		if (body as Ball).is_explodable:
-			emit_signal("ball_entered", self, body)
+	if body is Ball and (body as Ball).is_explodable:		
+		emit_signal("ball_entered", self, body)
+		#print("ball_entered: ", body)
 	elif body is Explosion:
 		emit_signal("explosion_entered", self, body)
+		#print("explosion_entered: ", body)
 
 func set_type(type: GameManager.Type):
 	self.type = type

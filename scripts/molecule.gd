@@ -16,11 +16,5 @@ func init_molecule(types: Array):
 		ball.is_explodable = false
 		ball.is_physics = false
 				
-		print(ball.get_size())
-				
 		if i > 0:
-			ball.position.x = 25
-			#ball.position.x = _balls[i - 1].get_size().x
-						
-		
-		
+			ball.position.x = _balls[i - 1].get_size().x / 8

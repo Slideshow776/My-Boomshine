@@ -6,20 +6,21 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hqstv"]
 normal = Vector2(0, 1)
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7iggm"]
-normal = Vector2(1, 0)
-distance = -1.0
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m8muj"]
-distance = -35.0
-
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qwi4n"]
 normal = Vector2(-1, 0)
+distance = 6.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m8muj"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7iggm"]
+normal = Vector2(1, 0)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_w0wbf")
 
 [node name="background" type="Sprite2D" parent="."]
+position = Vector2(576, 319)
+scale = Vector2(0.898438, 0.861111)
 texture = ExtResource("2_sry3e")
 
 [node name="Actors" type="Node" parent="."]
@@ -27,39 +28,41 @@ texture = ExtResource("2_sry3e")
 [node name="Walls" type="Node" parent="Actors"]
 
 [node name="North" type="StaticBody2D" parent="Actors/Walls"]
-position = Vector2(0, -263)
+position = Vector2(576, 68)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Actors/Walls/North"]
 position = Vector2(0, -61)
 shape = SubResource("WorldBoundaryShape2D_hqstv")
 
 [node name="East" type="StaticBody2D" parent="Actors/Walls"]
-position = Vector2(-576, -1)
+position = Vector2(1155, 337)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Actors/Walls/East"]
-position = Vector2(1, 1)
-shape = SubResource("WorldBoundaryShape2D_7iggm")
+shape = SubResource("WorldBoundaryShape2D_qwi4n")
 
 [node name="South" type="StaticBody2D" parent="Actors/Walls"]
-position = Vector2(-12, 315)
+position = Vector2(576, 657)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Actors/Walls/South"]
-position = Vector2(12, -26)
+position = Vector2(3, -28)
 shape = SubResource("WorldBoundaryShape2D_m8muj")
 
 [node name="West" type="StaticBody2D" parent="Actors/Walls"]
-position = Vector2(576, 0)
+position = Vector2(-267, -400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Actors/Walls/West"]
-shape = SubResource("WorldBoundaryShape2D_qwi4n")
+position = Vector2(267, 737)
+shape = SubResource("WorldBoundaryShape2D_7iggm")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 333)
 
 [node name="GUI" type="Node" parent="."]
 
 [node name="Labels" type="Node" parent="GUI"]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/Labels"]
+visible = false
 offset_left = -569.0
 offset_top = -318.0
 offset_right = -425.0
@@ -79,3 +82,42 @@ text = "GREENs:"
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.133333, 1, 1)
 text = "BLUEs:"
+
+[node name="Stats" type="HBoxContainer" parent="GUI/Labels"]
+layout_direction = 2
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = -10.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Objective" type="Label" parent="GUI/Labels/Stats"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 1
+text = "Catch 1 of 2 balls!"
+horizontal_alignment = 3
+vertical_alignment = 1
+
+[node name="Catches" type="Label" parent="GUI/Labels/Stats"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "You got: 0"
+horizontal_alignment = 3
+
+[node name="Level" type="Label" parent="GUI/Labels/Stats"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Level: 1"
+horizontal_alignment = 3
+
+[node name="Score" type="Label" parent="GUI/Labels/Stats"]
+layout_mode = 2
+text = "Score: 0"
+horizontal_alignment = 3

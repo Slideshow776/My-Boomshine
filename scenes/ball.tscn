@@ -44,6 +44,7 @@ collision_layer = 2
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_jtf5j")
+_max_velocity = 400
 direction_change_iteration = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
