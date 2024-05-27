@@ -22,6 +22,7 @@ var _total_explosions_made = 0
 @onready var catches = $GUI/Labels/Stats/Catches
 @onready var objective = $GUI/Labels/Stats/Objective
 @onready var level = $GUI/Labels/Stats/Level
+@onready var level_complete_sound = $LevelCompleteSound
 
 
 func _ready():	
@@ -37,6 +38,8 @@ func _process(delta):
 		
 	if _is_level_won() and _is_ready_to_flash:
 		_is_ready_to_flash = false
+		level_complete_sound.pitch_scale = randf_range(0.9, 1.1)
+		level_complete_sound.play()
 		_background_animation_player.play("flash")
 		
 func _input(event):
@@ -139,7 +142,6 @@ func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type =
 	explosion.explosion_sound.pitch_scale = clamp(scale, min_scale, max_scale)
 		
 	explosion.explosion_sound.volume_db = 0 - _total_explosions_made * .04
-	print(str(scale) + ", " + str(explosion.explosion_sound.pitch_scale))
 	explosion.explosion_sound.play()
 	
 	#var temp = log(0.25 * _total_explosions_made) / log(10)
@@ -218,3 +220,4 @@ func _get_random_position() -> Vector2:
 		randf_range(0, camera_width.x),
 		randf_range(0, camera_height.x)
 	)
+
