@@ -10,6 +10,7 @@ var _is_player_input = false
 var _is_win = false
 var _score_this_level = 0
 var _is_ready_to_flash = true
+var _total_explosions_made = 0
 
 @onready var _background = $background
 @onready var _background_animation_player = $background/AnimationPlayer
@@ -67,6 +68,7 @@ func _restart_level():
 	_is_ready_to_flash = true
 	GameManager.update(_is_level_won(), _score_this_level)
 	_score_this_level = 0
+	_total_explosions_made = 0
 		
 	_remove_all_balls()
 	_add_balls()
@@ -122,6 +124,7 @@ func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type =
 	var explosion = EXPLOSION.instantiate()
 	explosion.add_to_group("explosions", true)
 	add_child(explosion)
+	_total_explosions_made += 1
 	
 	if position == Vector2.ZERO:
 		explosion.position = get_global_mouse_position()
@@ -129,6 +132,19 @@ func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type =
 		explosion.position = position
 	
 	explosion.set_type(type)
+	
+	var min_scale = 0.25
+	var max_scale = 8.0
+	var scale = _total_explosions_made * min_scale * 0.3
+	explosion.explosion_sound.pitch_scale = clamp(scale, min_scale, max_scale)
+		
+	explosion.explosion_sound.volume_db = 0 - _total_explosions_made * .04
+	print(str(scale) + ", " + str(explosion.explosion_sound.pitch_scale))
+	explosion.explosion_sound.play()
+	
+	#var temp = log(0.25 * _total_explosions_made) / log(10)
+	#explosion.explosion_sound.pitch_scale = 4 #0.25 * _total_explosions_made
+	#explosion.explosion_sound.play()
 	
 	for ball in _get_balls():
 		ball.z_index = explosion.z_index + 1	

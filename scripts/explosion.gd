@@ -9,6 +9,7 @@ var _sprite_opacity = 0.8
 
 @onready var sprite_2d = $Sprite2D
 @onready var animation_player = $AnimationPlayer
+@onready var explosion_sound = $ExplosionSound
 
 func _ready():
 	connect("body_entered", _on_body_entered)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cltcn32ev8rel"]
+[gd_scene load_steps=7 format=3 uid="uid://cltcn32ev8rel"]
 
 [ext_resource type="Texture2D" uid="uid://8065wfcmgnsf" path="res://assets/actors/ball.png" id="1_cj4h5"]
 [ext_resource type="Script" path="res://scripts/explosion.gd" id="1_srw7l"]
+[ext_resource type="AudioStream" uid="uid://cadn4sf80prc0" path="res://assets/audio/audio/104940__glaneur-de-sons__bubble-1.ogg" id="3_c1sov"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f55wf"]
 radius = 20.3961
@@ -57,5 +58,9 @@ libraries = {
 "": SubResource("AnimationLibrary_yp4js")
 }
 autoplay = "explosion"
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_c1sov")
+bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4bf1t3u7mmsi"]
+
+[ext_resource type="AudioStream" uid="uid://c2whb6x070svn" path="res://assets/audio/music/airtone_-_roboduck_1.ogg" id="1_v8cle"]
+
+[node name="Music" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_v8cle")
+autoplay = true
+bus = &"Music"
