@@ -16,6 +16,13 @@ var level: int = 1
 var level_objective: int = 1
 var num_balls: int = 2
 
+func reset():
+	score = 0
+	player_got_num_balls = 0
+	level = 1
+	level_objective = 1
+	num_balls = 2
+
 func get_color(type: Type):
 	match type:
 		Type.PURPLE:

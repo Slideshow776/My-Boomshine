@@ -10,16 +10,27 @@ config_version=5
 
 [application]
 
-config/name="My Boomshine"
+config/name="The Mask"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[audio]
+
+driver/output_latency.web=100
 
 [autoload]
 
 GlobalConfig="*res://scripts/global_config.gd"
 GameManager="*res://scripts/game_manager.gd"
 Music="*res://scenes/music.tscn"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
+mouse_cursor/custom_image="res://assets/miscellaneous/mask.png"
 
 [input]
 

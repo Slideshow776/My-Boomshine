@@ -11,6 +11,8 @@ var _is_win = false
 var _score_this_level = 0
 var _is_ready_to_flash = true
 var _total_explosions_made = 0
+var timer_frequcny = 2.2
+var timer = timer_frequcny
 
 @onready var _background = $background
 @onready var _background_animation_player = $background/AnimationPlayer
@@ -40,6 +42,9 @@ func _process(delta):
 	if _is_level_won() and _is_ready_to_flash:
 		_flash()
 		
+	if timer <= timer_frequcny:
+		timer += delta
+		
 func _input(event):
 	if (
 		event.is_action_pressed("my_action") and
@@ -53,9 +58,9 @@ func _input(event):
 	):
 		get_tree().quit()
 	elif (
-			event.is_action_pressed("my_restart") and 
-			GlobalConfig.IS_DEBUG
+			event.is_action_pressed("my_restart")
 	):
+		GameManager.reset()
 		get_tree().reload_current_scene()
 
 
@@ -76,6 +81,7 @@ func _restart_level():
 	_is_ready_to_flash = true
 	GameManager.update(_is_level_won(), _score_this_level)
 	if _is_level_won():
+		timer = 0
 		story.progress()
 	_score_this_level = 0
 	_total_explosions_made = 0

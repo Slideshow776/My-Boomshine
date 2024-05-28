@@ -1,4 +1,4 @@
 extends Node
 
 
-const IS_DEBUG: bool = true
+const IS_DEBUG: bool = false
