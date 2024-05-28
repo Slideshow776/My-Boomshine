@@ -23,6 +23,7 @@ var _total_explosions_made = 0
 @onready var objective = $GUI/Labels/Stats/Objective
 @onready var level = $GUI/Labels/Stats/Level
 @onready var level_complete_sound = $LevelCompleteSound
+@onready var story = $GUI/Story
 
 
 func _ready():	
@@ -37,10 +38,7 @@ func _process(delta):
 		_restart_level()
 		
 	if _is_level_won() and _is_ready_to_flash:
-		_is_ready_to_flash = false
-		level_complete_sound.pitch_scale = randf_range(0.9, 1.1)
-		level_complete_sound.play()
-		_background_animation_player.play("flash")
+		_flash()
 		
 func _input(event):
 	if (
@@ -60,6 +58,13 @@ func _input(event):
 	):
 		get_tree().reload_current_scene()
 
+
+func _flash():
+	_is_ready_to_flash = false
+	level_complete_sound.pitch_scale = randf_range(0.9, 1.1)
+	level_complete_sound.play()
+	_background_animation_player.play("flash")
+
 func _is_level_won() -> bool:
 	if GameManager.level_objective >= _get_balls().size():
 		return true
@@ -70,6 +75,8 @@ func _restart_level():
 	_is_player_input = false
 	_is_ready_to_flash = true
 	GameManager.update(_is_level_won(), _score_this_level)
+	if _is_level_won():
+		story.progress()
 	_score_this_level = 0
 	_total_explosions_made = 0
 		
@@ -149,7 +156,7 @@ func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type =
 	#explosion.explosion_sound.play()
 	
 	for ball in _get_balls():
-		ball.z_index = explosion.z_index + 1	
+		ball.z_index = explosion.z_index + 1
 	
 	explosion.ball_entered.connect(_create_explosion)	
 	explosion.explosion_entered.connect(_create_explosion)	

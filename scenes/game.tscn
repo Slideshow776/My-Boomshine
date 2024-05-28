@@ -1,11 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://skwoi7lojoat"]
+[gd_scene load_steps=21 format=3 uid="uid://skwoi7lojoat"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_w0wbf"]
 [ext_resource type="Texture2D" uid="uid://che5rjr36jirw" path="res://assets/miscellaneous/white_background.png" id="2_sry3e"]
 [ext_resource type="AudioStream" uid="uid://w2f0a6fusgf2" path="res://assets/audio/audio/41555__jovica__padbell-e5.ogg" id="3_a6vk5"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_resas"]
 [ext_resource type="FontFile" uid="uid://hjubuu5a0fr8" path="res://assets/fonts/Play-Bold.ttf" id="5_0abi7"]
-[ext_resource type="FontFile" path="res://assets/audio/fonts/Play-Bold.ttf" id="5_t3k7c"]
+[ext_resource type="Script" path="res://scripts/Story.gd" id="6_ppdqf"]
+[ext_resource type="FontFile" uid="uid://dan7yhm7p11ve" path="res://assets/fonts/KirimomiSwaIt.ttf" id="6_xp1rr"]
 
 [sub_resource type="GDScript" id="GDScript_p0f41"]
 script/source = "extends Sprite2D
@@ -16,6 +17,9 @@ script/source = "extends Sprite2D
 func _ready():
 	print(\"98uoi\")
 "
+
+[sub_resource type="Animation" id="Animation_bvqxb"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_tp0y4"]
 resource_name = "flash"
@@ -31,9 +35,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(0.416595, 0.165178, 0.810778, 1), Color(1, 1, 1, 1), Color(0.415686, 0.164706, 0.811765, 1)]
 }
-
-[sub_resource type="Animation" id="Animation_bvqxb"]
-length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c4nw5"]
 _data = {
@@ -56,6 +57,55 @@ distance = 6.0
 normal = Vector2(1, 0)
 
 [sub_resource type="Theme" id="Theme_y2dry"]
+
+[sub_resource type="Animation" id="Animation_x6rby"]
+resource_name = "show_story"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 2.3, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.74902), Color(0, 0, 0, 0.74902), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 2.3, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_c2uko"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kubxo"]
+_data = {
+"RESET": SubResource("Animation_c2uko"),
+"show_story": SubResource("Animation_x6rby")
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_w0wbf")
@@ -155,7 +205,7 @@ layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.94902, 0.94902, 0.94902, 1)
-theme_override_fonts/font = ExtResource("5_t3k7c")
+theme_override_fonts/font = ExtResource("5_0abi7")
 text = "Catch 1 of 2 balls!"
 horizontal_alignment = 3
 vertical_alignment = 1
@@ -164,7 +214,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_colors/font_color = Color(0.94902, 0.94902, 0.94902, 1)
-theme_override_fonts/font = ExtResource("5_t3k7c")
+theme_override_fonts/font = ExtResource("5_0abi7")
 text = "You got: 0"
 horizontal_alignment = 3
 
@@ -172,7 +222,7 @@ horizontal_alignment = 3
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_colors/font_color = Color(0.94902, 0.94902, 0.94902, 1)
-theme_override_fonts/font = ExtResource("5_t3k7c")
+theme_override_fonts/font = ExtResource("5_0abi7")
 text = "Level: 1"
 horizontal_alignment = 3
 
@@ -183,6 +233,37 @@ theme_override_colors/font_color = Color(0.947199, 0.947199, 0.947199, 1)
 theme_override_fonts/font = ExtResource("5_0abi7")
 text = "Score: 0"
 horizontal_alignment = 3
+
+[node name="Story" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_ppdqf")
+
+[node name="Sprite2D" type="Sprite2D" parent="GUI/Story"]
+modulate = Color(0, 0, 0, 0)
+position = Vector2(590.5, 294)
+scale = Vector2(1.05703, 1.00556)
+texture = ExtResource("2_sry3e")
+
+[node name="Label" type="Label" parent="GUI/Story"]
+layout_mode = 0
+offset_top = 9.0
+offset_right = 1152.0
+offset_bottom = 628.0
+theme_override_colors/font_color = Color(1, 1, 1, 0)
+theme_override_fonts/font = ExtResource("6_xp1rr")
+theme_override_font_sizes/font_size = 80
+text = "Donec mollis hendrerit risus. Donec venenatis vulputate lorem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere "
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Story"]
+libraries = {
+"": SubResource("AnimationLibrary_kubxo")
+}
 
 [node name="LevelCompleteSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_a6vk5")
