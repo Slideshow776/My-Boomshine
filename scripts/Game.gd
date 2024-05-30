@@ -62,6 +62,11 @@ func _input(event):
 	):
 		GameManager.reset()
 		get_tree().reload_current_scene()
+	elif (
+		event.is_action_pressed("toggle_shakeable")
+	):
+		GlobalConfig.is_shakeable = !GlobalConfig.is_shakeable
+		print("GlobalConfig.is_shakeable = ", GlobalConfig.is_shakeable)
 
 
 func _flash():
@@ -178,7 +183,8 @@ func _create_explosion(explosion: Explosion, body):
 		GameManager.player_got_num_balls += 1
 		_set_catches(GameManager.player_got_num_balls)
 		
-		_camera_2d.apply_shake()
+		if GlobalConfig.is_shakeable:
+			_camera_2d.apply_shake()
 		
 		#if explosion.type == GameManager.Type.NEUTRAL:
 			#return
