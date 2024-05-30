@@ -12,6 +12,7 @@ var _sprite_opacity = 0.8
 @onready var explosion_sound = $ExplosionSound
 
 func _ready():
+	add_to_group("explosions", true)
 	connect("body_entered", _on_body_entered)
 
 func _on_body_entered(body):

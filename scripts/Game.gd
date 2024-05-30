@@ -47,8 +47,8 @@ func _process(delta):
 		
 func _input(event):
 	if (
-		event.is_action_pressed("my_action") and
-		!_is_player_input
+		event.is_action_pressed("my_action") and not
+		_is_player_input
 	):
 		_is_player_input = true
 		_spawn_explosion()
@@ -138,7 +138,6 @@ func _get_explosions() -> Array:
 	
 func _spawn_explosion(position: Vector2 = Vector2.ZERO, type: GameManager.Type = GameManager.Type.WHITE):
 	var explosion = EXPLOSION.instantiate()
-	explosion.add_to_group("explosions", true)
 	add_child(explosion)
 	_total_explosions_made += 1
 	

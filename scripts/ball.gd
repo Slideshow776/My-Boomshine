@@ -27,10 +27,11 @@ var type: GameManager.Type = GameManager.Type.PURPLE
 @onready var collision_shape_2d = $CollisionShape2D
 
 func _ready():
+	add_to_group("balls", true)
 	velocity = _get_random_velocity()
 
 func _physics_process(delta: float):
-	if !is_physics:
+	if not is_physics:
 		return
 		
 	move_and_slide()
