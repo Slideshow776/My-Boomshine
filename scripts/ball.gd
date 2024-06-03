@@ -34,9 +34,15 @@ func _physics_process(delta: float):
 	if not is_physics:
 		return
 		
-	move_and_slide()
-	_handle_wall_bounce()
-	_handle_direction_change(delta)
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		var reflect = collision.remainder.bounce(collision.normal)
+		velocity = velocity.bounce(collision.normal)
+		move_and_collide(reflect)
+		
+	#move_and_slide()
+	#_handle_wall_bounce()
+	#_handle_direction_change(delta)
 	
 	
 func set_type(type: GameManager.Type):
@@ -59,8 +65,8 @@ func _handle_wall_bounce():
 	for i in range(get_slide_collision_count()):
 		var collision = get_slide_collision(i)
 		if get_slide_collision(i):			
-			var normal = collision.get_normal() # Calculate the reflection vector
-			velocity = velocity.bounce(normal) * _bounciness
+			#var normal = collision.get_normal() # Calculate the reflection vector
+			velocity = velocity.bounce(collision) * _bounciness
 			break  # React only to the first collision in this example
 
 func _get_random_dark_color() -> Color:

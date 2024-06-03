@@ -66,7 +66,7 @@ func _input(event):
 		event.is_action_pressed("toggle_shakeable")
 	):
 		GlobalConfig.is_shakeable = !GlobalConfig.is_shakeable
-		print("GlobalConfig.is_shakeable = ", GlobalConfig.is_shakeable)
+		#print("GlobalConfig.is_shakeable = ", GlobalConfig.is_shakeable)
 
 
 func _flash():
